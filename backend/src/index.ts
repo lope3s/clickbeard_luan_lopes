@@ -6,14 +6,17 @@ import resolvers from "./resolvers";
 import { join } from "path";
 import { config } from "dotenv";
 config({ path: join(__dirname, "../env") });
-import { ClientDataSource } from "./data_source";
+import { ClientDataSource, SpecialityDataSource, BarberDataSource, ScheduleDataSource } from "./data_source";
 
 const server = new ApolloServer({
     typeDefs,
     resolvers,
     dataSources: () => {
         return {
-            clientAPI: new ClientDataSource()
+            clientController: new ClientDataSource(),
+            specialityController: new SpecialityDataSource(),
+            barberController: new BarberDataSource(),
+            scheduleController: new ScheduleDataSource()
         };
     }
 });

@@ -1,25 +1,43 @@
-const client = [
-    {
-        name: "Lopes",
-        email: "mlopes.works@gmail.com",
-        password: "123456",
-        fiends: ["diego", "eliabe", "gustavo"]
-    }
-];
+import { IDataSource, IBarberResgistry, ISchedule } from "./types";
 
 const resolvers = {
     Query: {
-        client: () => client
+        login: async (_: any, userObject: any, { dataSources }: IDataSource) => {
+            const data = await dataSources.clientController.loginUser(userObject);
+            return data;
+        }
     },
     Mutation: {
         registerClient: async (
             _: any,
             userObject: any,
-            { dataSources }: any
+            { dataSources }: IDataSource
         ) => {
-            const data = await dataSources.clientAPI.registerUser(userObject);
+            const data = await dataSources.clientController.registerUser(userObject);
+            return data;
+        },
+        registerAdmUser: async (
+            _: any,
+            userObject: any,
+            { dataSources }: IDataSource
+        ) => {
+            const data = await dataSources.clientController.registerAdmUser(userObject);
+            return data;
+        },
+        registerSpeciality: async (_: any, {speciality}: any, {dataSources}: IDataSource) => {
+
+            const data = await dataSources.specialityController.registerSpeciality(speciality)
+            return data;
+        },
+        registerBarber: async (_: any, barberObject: IBarberResgistry, {dataSources}: IDataSource) => {
+            const data = await dataSources.barberController.registerBarber(barberObject)
+            return data;
+        },
+        createSchedule: async(_: any, scheduleObject: ISchedule, {dataSources}: IDataSource) => {
+            const data = await dataSources.scheduleController.createSchedule(scheduleObject)
             return data;
         }
+
     }
 };
 
