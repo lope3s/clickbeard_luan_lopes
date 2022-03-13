@@ -2,7 +2,7 @@ import { gql } from "apollo-server";
 
 const typeDefs = gql`
     type RegisteredClient {
-        id: String
+        token: String
         name: String
         email: String
         isAdmin: Boolean

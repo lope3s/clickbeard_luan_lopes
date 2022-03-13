@@ -22,10 +22,10 @@ export class ClientDataSource extends DataSource {
             client.password = hashData(userObject.password);
             client.isAdmin = false;
 
-            const { password, ...rest } = await connection.save(client);
-            rest.id = await encryptData(rest.id);
+            const { password, id, ...rest } = await connection.save(client);
+            const token = await encryptData(id);
 
-            return rest;
+            return { ...rest, token };
         } catch (error) {
             throw new ValidationError("E-mail já cadastrado");
         }
@@ -42,10 +42,10 @@ export class ClientDataSource extends DataSource {
             client.password = hashData(userObject.password);
             client.isAdmin = true;
 
-            const { password, ...rest } = await connection.save(client);
-            rest.id = await encryptData(rest.id);
+            const { password, id, ...rest } = await connection.save(client);
+            const token = await encryptData(id);
 
-            return rest;
+            return { ...rest, token };
         } catch (error) {
             throw new ValidationError("E-mail já cadastrado");
         }
@@ -57,14 +57,14 @@ export class ClientDataSource extends DataSource {
 
             const hashedPass = hashData(userObject.password);
 
-            const dbSearch = await connection.findOneOrFail({
+            const { id, ...rest } = await connection.findOneOrFail({
                 email: userObject.email,
                 password: hashedPass
             });
 
-            dbSearch.id = await encryptData(dbSearch.id.toString());
+            const token = await encryptData(id.toString());
 
-            return dbSearch;
+            return { ...rest, token };
         } catch (error: any) {
             throw new UserInputError("E-mail ou senha inválidos");
         }
