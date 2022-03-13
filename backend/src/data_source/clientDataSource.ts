@@ -1,8 +1,8 @@
 import { Client } from "../entity";
 import { DataSource } from "apollo-datasource";
 import { getConnection } from "typeorm";
-import { hashData } from "../helpers";
-import { UserInputError, ValidationError } from 'apollo-server';
+import { hashData, encryptData } from "../helpers";
+import { UserInputError, ValidationError } from "apollo-server";
 
 interface IUserObject {
     email: string;
@@ -16,17 +16,18 @@ export class ClientDataSource extends DataSource {
             const connection = getConnection().getRepository(Client);
 
             const client = new Client();
-            
+
             client.email = userObject.email;
             client.name = userObject.name;
             client.password = hashData(userObject.password);
             client.isAdmin = false;
 
             const { password, ...rest } = await connection.save(client);
+            rest.id = await encryptData(rest.id);
 
             return rest;
         } catch (error) {
-            throw new ValidationError("E-mail já cadastrado")
+            throw new ValidationError("E-mail já cadastrado");
         }
     }
 
@@ -42,11 +43,11 @@ export class ClientDataSource extends DataSource {
             client.isAdmin = true;
 
             const { password, ...rest } = await connection.save(client);
+            rest.id = await encryptData(rest.id);
 
             return rest;
-            
         } catch (error) {
-            throw new ValidationError("E-mail já cadastrado")
+            throw new ValidationError("E-mail já cadastrado");
         }
     }
 
@@ -56,12 +57,16 @@ export class ClientDataSource extends DataSource {
 
             const hashedPass = hashData(userObject.password);
 
-            const dbSearch = await connection.findOneOrFail({email: userObject.email, password: hashedPass})
+            const dbSearch = await connection.findOneOrFail({
+                email: userObject.email,
+                password: hashedPass
+            });
 
-            return dbSearch
+            dbSearch.id = await encryptData(dbSearch.id.toString());
 
+            return dbSearch;
         } catch (error: any) {
-            throw new UserInputError("E-mail ou senha inválidos")
+            throw new UserInputError("E-mail ou senha inválidos");
         }
     }
 }

@@ -6,7 +6,7 @@ import {
     IListSchedule
 } from "./types";
 import { checkScheduleTime } from "./helpers";
-import { ValidationError } from "apollo-server";
+import { ValidationError, AuthenticationError } from "apollo-server";
 
 const resolvers = {
     Query: {
@@ -22,9 +22,13 @@ const resolvers = {
         },
         listSchedules: async (
             _: any,
-            { clientId }: IListSchedule,
-            { dataSources }: IDataSource
+            __: any,
+            { dataSources, clientId }: IDataSource
         ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
             const data = await dataSources.scheduleController.listSchedules(
                 clientId
             );
@@ -55,33 +59,48 @@ const resolvers = {
         registerSpeciality: async (
             _: any,
             { speciality }: any,
-            { dataSources }: IDataSource
+            { dataSources, clientId }: IDataSource
         ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
             const data =
                 await dataSources.specialityController.registerSpeciality(
-                    speciality
+                    speciality,
+                    clientId
                 );
             return data;
         },
         registerBarber: async (
             _: any,
             barberObject: IBarberResgistry,
-            { dataSources }: IDataSource
+            { dataSources, clientId }: IDataSource
         ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
             const data = await dataSources.barberController.registerBarber(
-                barberObject
+                barberObject,
+                clientId
             );
             return data;
         },
         createSchedule: async (
             _: any,
             scheduleObject: ISchedule,
-            { dataSources }: IDataSource
+            { dataSources, clientId }: IDataSource
         ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
             if (checkScheduleTime(scheduleObject.scheduledHour)) {
                 const data =
                     await dataSources.scheduleController.createSchedule(
-                        scheduleObject
+                        scheduleObject,
+                        clientId
                     );
                 return data;
             }
@@ -93,10 +112,15 @@ const resolvers = {
         cancelSchedule: async (
             _: any,
             cancelScheduleObject: ICancelSchedule,
-            { dataSources }: IDataSource
+            { dataSources, clientId }: IDataSource
         ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
             const data = await dataSources.scheduleController.cancelSchedule(
-                cancelScheduleObject
+                cancelScheduleObject,
+                clientId
             );
             return data;
         }

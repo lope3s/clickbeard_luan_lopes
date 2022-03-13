@@ -30,7 +30,7 @@ const typeDefs = gql`
 
     type Query {
         login(email: String!, password: String!): RegisteredClient
-        listSchedules(clientId: String!): [Schedule]
+        listSchedules: [Schedule]
     }
 
     type Mutation {

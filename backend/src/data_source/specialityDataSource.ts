@@ -1,22 +1,37 @@
 import { DataSource } from "apollo-datasource";
 import { getConnection } from "typeorm";
-import { Specialties } from '../entity'
+import { Specialties, Client } from "../entity";
+import { ForbiddenError, ValidationError } from "apollo-server";
 
 export class SpecialityDataSource extends DataSource {
-    async registerSpeciality (speciality: string) {
+    async registerSpeciality(speciality: string, clientId: string) {
         try {
-            const connection = getConnection().getRepository(Specialties);
+            const connection = getConnection();
 
-            const newSpeciality = new Specialties()
-            newSpeciality.speciality = speciality
+            const client = await connection.manager.findOneOrFail(
+                Client,
+                clientId
+            );
 
-            const specialityCreated = await connection.save(newSpeciality)
+            if (!client.isAdmin) {
+                throw new Error("Usuário não possui permissão para essa rota");
+            }
 
-            return specialityCreated
+            const newSpeciality = new Specialties();
+            newSpeciality.speciality = speciality;
 
-        } catch (error) {
-            console.log(error)
-            throw new Error("erro")
+            const specialityCreated = await connection.manager.save(
+                newSpeciality
+            );
+
+            return specialityCreated;
+        } catch (error: any) {
+            console.log({ error });
+
+            if (error.message.includes("Duplicate")) {
+                throw new ValidationError("Especialidade já registrada");
+            }
+            throw new ForbiddenError(error.message);
         }
     }
 }

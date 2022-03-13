@@ -6,13 +6,11 @@ export interface IBarberResgistry {
 }
 
 export interface ISchedule {
-    clientId: string;
     barberId: string;
     scheduledHour: string;
 }
 
 export interface ICancelSchedule {
-    clientId: string;
     scheduleId: string;
 }
 

@@ -3,10 +3,10 @@ import { Schedules, Client, Barbers } from "../entity";
 import { ISchedule, ICancelSchedule } from "../types";
 import { getConnection, ILike } from "typeorm";
 import { ValidationError, UserInputError } from "apollo-server";
-import { checkTimeConflict, filterScheduleData } from "../helpers";
+import { checkTimeConflict, filterScheduleData, decryptData } from "../helpers";
 
 export class ScheduleDataSource extends DataSource {
-    async createSchedule(scheduleObject: ISchedule) {
+    async createSchedule(scheduleObject: ISchedule, clientId: string) {
         try {
             const today = new Date();
             // Corrigindo UTC time:
@@ -28,10 +28,7 @@ export class ScheduleDataSource extends DataSource {
             );
 
             const [client, barber, todayBarberSchedules] = await Promise.all([
-                connection.manager.findOneOrFail(
-                    Client,
-                    scheduleObject.clientId
-                ),
+                connection.manager.findOneOrFail(Client, clientId),
                 connection.manager.findOneOrFail(
                     Barbers,
                     scheduleObject.barberId
@@ -77,7 +74,10 @@ export class ScheduleDataSource extends DataSource {
         }
     }
 
-    async cancelSchedule(cancelScheduleObject: ICancelSchedule) {
+    async cancelSchedule(
+        cancelScheduleObject: ICancelSchedule,
+        clientId: string
+    ) {
         try {
             const today = new Date();
             // Corrigindo UTC time:
@@ -93,9 +93,7 @@ export class ScheduleDataSource extends DataSource {
                 }
             );
 
-            if (
-                schedule.client.id.toString() !== cancelScheduleObject.clientId
-            ) {
+            if (schedule.client.id.toString() !== clientId) {
                 throw new Error(
                     "Não é possível cancelar a reserva da outro usuário"
                 );

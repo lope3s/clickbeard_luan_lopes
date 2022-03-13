@@ -4,7 +4,7 @@ import { Schedules } from "./Schedules";
 @Entity()
 export class Client {
     @PrimaryGeneratedColumn("uuid")
-    id: number;
+    id: string;
 
     @Column()
     name: string;
