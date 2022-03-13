@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Schedules } from "./Schedules";
 
 @Entity()
 export class Client {
@@ -16,4 +17,7 @@ export class Client {
 
     @Column()
     isAdmin: boolean;
+
+    @OneToMany((type) => Schedules, (schedule) => schedule.client)
+    schedules: Schedules[];
 }

@@ -1,16 +1,17 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Client, Barbers } from "./";
 
 @Entity()
 export class Schedules {
-    @PrimaryGeneratedColumn('uuid')
-    id: string
+    @PrimaryGeneratedColumn("uuid")
+    id: string;
+
+    @ManyToOne((type) => Barbers, (barber) => barber.schedules)
+    barber: Barbers;
+
+    @ManyToOne((type) => Client, (client) => client.schedules)
+    client: Client;
 
     @Column()
-    barberName: string
-
-    @Column()
-	clientName: string
-
-    @Column()
-	scheduledHour: string
+    scheduledHour: string;
 }

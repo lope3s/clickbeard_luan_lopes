@@ -23,20 +23,45 @@ const typeDefs = gql`
     }
 
     type Schedule {
+        clientName: String
         barberName: String
         scheduledHour: String
     }
 
     type Query {
         login(email: String!, password: String!): RegisteredClient
+        listSchedules(clientId: String!): [Schedule]
     }
 
     type Mutation {
-        registerClient(name: String!, email: String!, password: String!): RegisteredClient
-        registerAdmUser(name: String!, email: String!, password: String!): RegisteredClient
+        registerClient(
+            name: String!
+            email: String!
+            password: String!
+        ): RegisteredClient
+
+        registerAdmUser(
+            name: String!
+            email: String!
+            password: String!
+        ): RegisteredClient
+
         registerSpeciality(speciality: String!): Speciality
-        registerBarber(name: String!, age: Int!, hiringDate: String!, specialities: [String]!): Barbers
-        createSchedule(clientId: String!, barberId: String!, scheduledHour: String!): Schedule
+
+        registerBarber(
+            name: String!
+            age: Int!
+            hiringDate: String!
+            specialities: [String]!
+        ): Barbers
+
+        createSchedule(
+            clientId: String!
+            barberId: String!
+            scheduledHour: String!
+        ): Schedule
+
+        cancelSchedule(clientId: String!, scheduleId: String!): String
     }
 `;
 

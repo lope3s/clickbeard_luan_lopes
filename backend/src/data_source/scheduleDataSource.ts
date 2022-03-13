@@ -1,30 +1,156 @@
 import { DataSource } from "apollo-datasource";
 import { Schedules, Client, Barbers } from "../entity";
-import { ISchedule } from "../types";
-import { getConnection } from "typeorm";
+import { ISchedule, ICancelSchedule } from "../types";
+import { getConnection, ILike } from "typeorm";
+import { ValidationError, UserInputError } from "apollo-server";
+import { checkTimeConflict, filterScheduleData } from "../helpers";
 
 export class ScheduleDataSource extends DataSource {
-    async createSchedule (scheduleObject: ISchedule) {
+    async createSchedule(scheduleObject: ISchedule) {
+        try {
+            const today = new Date();
+            // Corrigindo UTC time:
+            today.setHours(today.getHours() - 3);
+
+            const scheduleDate = new Date(scheduleObject.scheduledHour);
+
+            if (scheduleDate < today) {
+                throw new Error(
+                    "Não é possível fazer uma reserva para o passado"
+                );
+            }
+
+            const connection = getConnection();
+
+            const scheduledDate = scheduleObject.scheduledHour.replace(
+                / [0-9]{2}:[0-9]{2}:[0-9]{2} GMT/,
+                ""
+            );
+
+            const [client, barber, todayBarberSchedules] = await Promise.all([
+                connection.manager.findOneOrFail(
+                    Client,
+                    scheduleObject.clientId
+                ),
+                connection.manager.findOneOrFail(
+                    Barbers,
+                    scheduleObject.barberId
+                ),
+                connection.manager.find(Schedules, {
+                    where: [
+                        {
+                            scheduledHour: ILike(`%${scheduledDate}%`),
+                            barber: scheduleObject.barberId
+                        }
+                    ]
+                })
+            ]);
+
+            if (todayBarberSchedules.length) {
+                for (let schedule of todayBarberSchedules) {
+                    const hasTimeConflict = checkTimeConflict(
+                        scheduleObject.scheduledHour,
+                        schedule.scheduledHour
+                    );
+
+                    if (hasTimeConflict) {
+                        throw new Error("Horário indisponível");
+                    }
+                }
+            }
+
+            const newSchedule = new Schedules();
+            newSchedule.client = client;
+            newSchedule.barber = barber;
+            newSchedule.scheduledHour = scheduleObject.scheduledHour;
+
+            await connection.manager.save(newSchedule);
+
+            return {
+                clientName: client.name,
+                barberName: barber.name,
+                scheduledHour: scheduleObject.scheduledHour
+            };
+        } catch (error: any) {
+            console.log({ error });
+            throw new ValidationError(error.message);
+        }
+    }
+
+    async cancelSchedule(cancelScheduleObject: ICancelSchedule) {
+        try {
+            const today = new Date();
+            // Corrigindo UTC time:
+            today.setHours(today.getHours() - 3);
+
+            const connection = getConnection();
+
+            const schedule = await connection.manager.findOneOrFail(
+                Schedules,
+                cancelScheduleObject.scheduleId,
+                {
+                    relations: ["client"]
+                }
+            );
+
+            if (
+                schedule.client.id.toString() !== cancelScheduleObject.clientId
+            ) {
+                throw new Error(
+                    "Não é possível cancelar a reserva da outro usuário"
+                );
+            }
+
+            const scheduleHour = new Date(schedule.scheduledHour);
+            scheduleHour.setHours(scheduleHour.getHours() - 2);
+
+            if (today < scheduleHour) {
+                await connection.manager.remove(schedule);
+                return "Agendamento cancelado";
+            }
+
+            throw new Error(
+                "Cancelamento válido apenas com aviso prévio de 2 horas."
+            );
+        } catch (error: any) {
+            if (error.message.includes("Cancelamento válido")) {
+                throw new ValidationError(error.message);
+            }
+
+            if (error.message.includes("matching")) {
+                throw new UserInputError("Agendamento não encontrado");
+            }
+
+            throw new UserInputError(error.message);
+        }
+    }
+
+    async listSchedules(clientId: string) {
         try {
             const connection = getConnection();
 
-            const partsIds = await Promise.all([
-                connection.manager.findOneOrFail(Client, scheduleObject.clientId), 
-                connection.manager.findOneOrFail(Barbers, scheduleObject.barberId)
-            ])
+            const client = await connection.manager.findOneOrFail(
+                Client,
+                clientId
+            );
 
-            // Validate if scheduled hour is between the start time and end time, if true, throw a validation error
+            if (client.isAdmin) {
+                const schedules = await connection.manager.find(Schedules, {
+                    relations: ["barber", "client"]
+                });
 
-            const newSchedule = new Schedules();
-            newSchedule.barberName = partsIds[1].name
-            newSchedule.clientName = partsIds[0].name
-            newSchedule.scheduledHour = scheduleObject.scheduledHour
+                return filterScheduleData(schedules);
+            }
 
-            return await connection.manager.save(newSchedule)
+            const schedules = await connection.manager.find(Schedules, {
+                where: [{ client: { id: clientId } }],
+                relations: ["barber", "client"]
+            });
 
+            return filterScheduleData(schedules);
         } catch (error: any) {
-            console.log({error})
-            throw new Error(error.message)
+            console.log({ error });
+            throw new Error(error.message);
         }
     }
 }

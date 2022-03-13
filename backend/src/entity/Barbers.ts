@@ -1,21 +1,31 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm'
-import { Specialties } from './'
+import {
+    Entity,
+    Column,
+    PrimaryGeneratedColumn,
+    ManyToMany,
+    JoinTable,
+    OneToMany
+} from "typeorm";
+import { Specialties, Schedules } from "./";
 
 @Entity()
 export class Barbers {
     @PrimaryGeneratedColumn("uuid")
-    id: string
+    id: string;
 
     @Column()
-    name: string
+    name: string;
 
     @Column()
-    age: number
+    age: number;
 
     @Column()
-    hiringDate: string
+    hiringDate: string;
 
-    @ManyToMany(type => Specialties, specialites => specialites.barbers )
+    @ManyToMany((type) => Specialties, (specialites) => specialites.barbers)
     @JoinTable()
-    specialties: Specialties[]
+    specialties: Specialties[];
+
+    @OneToMany((type) => Schedules, (schedule) => schedule.barber)
+    schedules: Schedules[];
 }

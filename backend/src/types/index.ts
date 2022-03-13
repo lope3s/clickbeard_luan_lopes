@@ -1,9 +1,15 @@
-import type { IDataSource } from './resolverTypes'
-import type { IBarberResgistry } from './genericTypes'
-import type { ISchedule } from './genericTypes'
+import type { IDataSource } from "./resolverTypes";
+import type {
+    IBarberResgistry,
+    ISchedule,
+    ICancelSchedule,
+    IListSchedule
+} from "./genericTypes";
 
-export { 
+export {
     IDataSource,
     IBarberResgistry,
-    ISchedule
-}
+    ISchedule,
+    ICancelSchedule,
+    IListSchedule
+};
