@@ -9,7 +9,7 @@ const OutlinedButton: FC<
 > = ({ children, ...props }) => {
     return (
         <ButtonElement>
-            <button {...props}>{children}</button>;
+            <button {...props}>{children}</button>
         </ButtonElement>
     );
 };

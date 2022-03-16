@@ -1,41 +1,44 @@
 import React from "react";
-import { Container, ButtonBox } from "./style";
-import { LrForm, Input, OutlinedButton } from "../../components";
-import { useLrForm } from "../../hooks/useLrForm";
+import { Container } from "./style";
+import { LrForm, LoadingComponent } from "../../components";
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from "../../gqlQueries";
+import { useStoreActions } from "easy-peasy";
+import { IModel, IRegisterData } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage: React.FC = () => {
+    const setUser = useStoreActions<IModel>(
+        (action) => action.userModel.setUser
+    );
+
+    const navigate = useNavigate();
+
+    const [registerUser, { data, loading, error, reset }] =
+        useMutation<IRegisterData>(REGISTER_USER);
+
     const postForm = (data: any) => {
-        console.log(data);
+        registerUser({ variables: data });
     };
 
-    const { register } = useLrForm();
+    if (data) {
+        const { __typename, ...rest } = data.registerClient;
+
+        setUser(rest);
+
+        localStorage.setItem(
+            "@clickbeard",
+            JSON.stringify({ token: rest.token, name: rest.name })
+        );
+        reset();
+
+        navigate("/agendamentos", { replace: true });
+    }
 
     return (
         <Container>
-            <LrForm postForm={postForm}>
-                <Input
-                    id="name"
-                    labelText="Nome"
-                    placeholder="Digite o seu nome"
-                    register={register("name")}
-                />
-                <Input
-                    id="email"
-                    labelText="E-mail"
-                    placeholder="Digite o seu e-mail"
-                    register={register("email")}
-                />
-                <Input
-                    id="password"
-                    labelText="Senha"
-                    placeholder="Digite a sua senha"
-                    type="password"
-                    register={register("password")}
-                />
-                <ButtonBox>
-                    <OutlinedButton type="submit">Cadastrar</OutlinedButton>
-                </ButtonBox>
-            </LrForm>
+            {loading ? <LoadingComponent /> : null}
+            <LrForm postForm={postForm} page="cadastro" error={error}></LrForm>
         </Container>
     );
 };

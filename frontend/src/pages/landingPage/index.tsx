@@ -1,8 +1,11 @@
 import React from "react";
 import { Container, ContentBox, DescriptiveBox, ButtonBox } from "./styles";
 import { OutlinedButton, H1, TitleBox } from "../../components";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage: React.FC = () => {
+    const navigate = useNavigate();
+
     return (
         <Container>
             <ContentBox>
@@ -21,7 +24,11 @@ const LandingPage: React.FC = () => {
                     <p>Controle sobre seus horários.</p>
                 </DescriptiveBox>
                 <ButtonBox>
-                    <OutlinedButton>Login</OutlinedButton>
+                    <OutlinedButton
+                        onClick={() => navigate("/cadastro", { replace: true })}
+                    >
+                        Cadastre-se
+                    </OutlinedButton>
                 </ButtonBox>
             </ContentBox>
         </Container>

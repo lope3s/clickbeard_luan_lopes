@@ -1,15 +1,19 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+interface IContainer {
+    page: "cadastro" | "login" | "registerBarber";
+}
+
+export const Container = styled.div<IContainer>`
     width: 80%;
-    height: 75%;
+    height: ${(props) => (props.page === "registerBarber" ? "95%" : "75%")};
     background-color: #232323;
     position: relative;
     margin: 0 auto;
 `;
 
 export const TitleContainer = styled.div`
-    width: 15rem;
+    width: 25rem;
     margin: 25px auto;
 `;
 
@@ -60,4 +64,18 @@ export const Form = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
+`;
+
+export const ButtonBox = styled.div`
+    align-self: center;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+export const ErrorText = styled.p`
+    font-size: 1rem;
+    color: #f5152c;
+    margin-top: 5px;
 `;
