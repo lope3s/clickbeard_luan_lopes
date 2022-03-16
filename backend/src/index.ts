@@ -29,15 +29,19 @@ const server = new ApolloServer({
         };
     },
     context: async ({ req }) => {
-        const token = req.headers.authorization || "";
+        try {
+            const token = req.headers.authorization || "";
 
-        if (token) {
-            const clientId = await decryptData(token);
+            if (token) {
+                const clientId = await decryptData(token);
 
-            return { clientId };
+                return { clientId };
+            }
+
+            return { clientId: null };
+        } catch (error) {
+            console.log({ error });
         }
-
-        return { clientId: null };
     }
 });
 

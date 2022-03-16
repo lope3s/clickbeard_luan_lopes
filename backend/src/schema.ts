@@ -31,6 +31,8 @@ const typeDefs = gql`
     type Query {
         login(email: String!, password: String!): RegisteredClient
         listSchedules: [Schedule]
+        checkToken: RegisteredClient
+        listSpecialities: [Speciality]
     }
 
     type Mutation {

@@ -69,4 +69,17 @@ export class ClientDataSource extends DataSource {
             throw new UserInputError("E-mail ou senha inválidos");
         }
     }
+
+    async checkToken(cliendId: string) {
+        try {
+            const connection = getConnection();
+
+            const { email, id, password, schedules, ...rest } =
+                await connection.manager.findOneOrFail(Client, cliendId);
+
+            return rest;
+        } catch (error) {
+            throw new UserInputError("Token inválido");
+        }
+    }
 }

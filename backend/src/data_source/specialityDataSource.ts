@@ -34,4 +34,17 @@ export class SpecialityDataSource extends DataSource {
             throw new ForbiddenError(error.message);
         }
     }
+
+    async listSpecialities() {
+        try {
+            const connection = getConnection();
+            const specialities = await connection.manager.find(Specialties, {
+                relations: ["barbers"]
+            });
+
+            return specialities;
+        } catch (error: any) {
+            throw new Error(error.message);
+        }
+    }
 }

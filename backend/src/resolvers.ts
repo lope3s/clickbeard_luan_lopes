@@ -33,6 +33,30 @@ const resolvers = {
                 clientId
             );
             return data;
+        },
+        checkToken: async (
+            _: any,
+            __: any,
+            { dataSources, clientId }: IDataSource
+        ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
+            const data = await dataSources.clientController.checkToken(
+                clientId
+            );
+            return data;
+        },
+        listSpecialities: async (
+            _: any,
+            __: any,
+            { dataSources }: IDataSource
+        ) => {
+            const data =
+                await dataSources.specialityController.listSpecialities();
+
+            return data;
         }
     },
     Mutation: {
