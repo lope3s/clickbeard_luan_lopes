@@ -138,3 +138,15 @@ h5,
 h6 {
     font-family: "Sancreek", cursive;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background-color: #000;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #fff;
+    border-radius: 5px;
+}

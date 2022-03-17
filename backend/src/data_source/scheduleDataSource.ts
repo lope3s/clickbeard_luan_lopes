@@ -3,7 +3,7 @@ import { Schedules, Client, Barbers } from "../entity";
 import { ISchedule, ICancelSchedule } from "../types";
 import { getConnection, ILike } from "typeorm";
 import { ValidationError, UserInputError } from "apollo-server";
-import { checkTimeConflict, filterScheduleData, decryptData } from "../helpers";
+import { checkTimeConflict, filterScheduleData, sort } from "../helpers";
 
 export class ScheduleDataSource extends DataSource {
     async createSchedule(scheduleObject: ISchedule, clientId: string) {
@@ -149,6 +149,39 @@ export class ScheduleDataSource extends DataSource {
         } catch (error: any) {
             console.log({ error });
             throw new Error(error.message);
+        }
+    }
+    async getBarberFreeTime(date: string, barberId: string) {
+        try {
+            const today = new Date();
+            // Corrigindo UTC time:
+            today.setHours(today.getHours() - 3);
+
+            const scheduleDate = new Date(date);
+
+            if (scheduleDate < today) {
+                throw new Error("Dados passados indisponívels.");
+            }
+
+            const connection = getConnection();
+
+            const scheduledDate = date.replace(
+                / [0-9]{2}:[0-9]{2}:[0-9]{2} GMT/,
+                ""
+            );
+
+            const schedules = await connection.manager.find(Schedules, {
+                where: [
+                    {
+                        scheduledHour: ILike(`%${scheduledDate}%`),
+                        barber: barberId
+                    }
+                ]
+            });
+
+            return schedules.sort(sort);
+        } catch (error: any) {
+            throw new UserInputError(error.message);
         }
     }
 }

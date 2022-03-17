@@ -3,7 +3,7 @@ import {
     IBarberResgistry,
     ISchedule,
     ICancelSchedule,
-    IListSchedule
+    IGetBarberFreeTime
 } from "./types";
 import { checkScheduleTime } from "./helpers";
 import { ValidationError, AuthenticationError } from "apollo-server";
@@ -55,6 +55,22 @@ const resolvers = {
         ) => {
             const data =
                 await dataSources.specialityController.listSpecialities();
+
+            return data;
+        },
+        getBarberFreeTime: async (
+            _: any,
+            { barberId, date }: IGetBarberFreeTime,
+            { dataSources, clientId }: IDataSource
+        ) => {
+            if (!clientId) {
+                throw new AuthenticationError("Nenhum token fornecido");
+            }
+
+            const data = await dataSources.scheduleController.getBarberFreeTime(
+                date,
+                barberId
+            );
 
             return data;
         }

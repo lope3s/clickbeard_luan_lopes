@@ -9,7 +9,8 @@ import {
     RegisterPage,
     LoginPage,
     SchedulesPage,
-    RegisterBarberPage
+    RegisterBarberPage,
+    RegisterSchedulePage
 } from "./pages";
 import { Routes, Route } from "react-router-dom";
 import {
@@ -22,6 +23,7 @@ import { setContext } from "@apollo/client/link/context";
 import store from "./store/store";
 import { StoreProvider } from "easy-peasy";
 import { ILocalStorageData } from "./types";
+import { ScheduleContext } from "./hooks/useScheduleRegister";
 import "./global.css";
 
 const httpLink = createHttpLink({
@@ -69,6 +71,14 @@ const Router: React.FC = () => {
                                 <Route
                                     path="/registrarBarbeiro"
                                     element={<RegisterBarberPage />}
+                                />
+                                <Route
+                                    path="/agendarHorario"
+                                    element={
+                                        <ScheduleContext>
+                                            <RegisterSchedulePage />
+                                        </ScheduleContext>
+                                    }
                                 />
                             </Routes>
                         </AuthenticationComponent>

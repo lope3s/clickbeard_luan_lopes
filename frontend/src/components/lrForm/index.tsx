@@ -13,7 +13,7 @@ import {
 import { H1, TitleBox, Input, OutlinedButton, Select } from "../index";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { validateDataInput } from "../../helpers";
+import { validateDataInput, addDateMask } from "../../helpers";
 
 interface ILrForm {
     postForm: (data: any) => void;
@@ -149,7 +149,7 @@ const LrForm: React.FC<ILrForm> = ({ postForm, page, error }) => {
                                 const hasError = await trigger("age");
 
                                 if (!hasError) {
-                                    clearErrors("hiringDate");
+                                    clearErrors("age");
                                 }
 
                                 setValue("age", inputData);
@@ -172,36 +172,8 @@ const LrForm: React.FC<ILrForm> = ({ postForm, page, error }) => {
                                 required: "Digite a data de contratação",
                                 validate: validateDataInput
                             })}
-                            onChange={async (e: any) => {
-                                let inputData: string = e.target.value.replace(
-                                    /[^0-9/]/g,
-                                    ""
-                                );
-
-                                if (e.nativeEvent.data === "/") {
-                                    inputData = inputData.replace(/\/$/, "");
-                                    setValue("hiringDate", inputData);
-                                    return;
-                                }
-
-                                const hasError = await trigger("hiringDate");
-
-                                if (!hasError) {
-                                    clearErrors("hiringDate");
-                                }
-
-                                if (
-                                    e.nativeEvent.inputType !==
-                                        "deleteContentBackward" &&
-                                    e.nativeEvent.inputType !==
-                                        "deleteContentForward" &&
-                                    (inputData.length === 2 ||
-                                        inputData.length === 5)
-                                ) {
-                                    inputData += "/";
-                                }
-
-                                setValue("hiringDate", inputData);
+                            onChange={(e) => {
+                                addDateMask(e, setValue, clearErrors, trigger);
                             }}
                             maxLength={10}
                         >

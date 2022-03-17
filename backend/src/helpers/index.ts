@@ -4,6 +4,7 @@ import checkTimeConflict from "./checkTimeConflict";
 import filterScheduleData from "./filterScheduleData";
 import encryptData from "./encryptData";
 import decryptData from "./decryptData";
+import sort from "./sort";
 
 export {
     hashData,
@@ -11,5 +12,6 @@ export {
     checkTimeConflict,
     filterScheduleData,
     encryptData,
-    decryptData
+    decryptData,
+    sort
 };

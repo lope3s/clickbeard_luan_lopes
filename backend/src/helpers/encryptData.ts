@@ -16,7 +16,6 @@ const encryptData = async (data: string) => {
 
         return encryptedData;
     } catch (error: any) {
-        console.log({ error });
         throw new Error(error.message);
     }
 };

@@ -26,3 +26,18 @@ export interface IFormData {
     hiringDate: string;
     speciality: ISpeciality[];
 }
+
+export interface IBarber {
+    name: string;
+    age: number;
+    id: string;
+    __typename: string;
+}
+
+export interface ISchedule {
+    barberName: string;
+    clientName: string;
+    scheduledHour: string;
+    id: string;
+    __typename: string;
+}

@@ -17,3 +17,15 @@ export interface ICancelSchedule {
 export interface IListSchedule {
     clientId: string;
 }
+
+export interface IGetBarberFreeTime {
+    date: string;
+    barberId: string;
+}
+
+export interface IMappedSchedule {
+    scheduledHour: string;
+    barberName: string;
+    clientName: string;
+    id: string;
+}

@@ -17,9 +17,9 @@ export const LinkBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 8rem;
 
     a {
+        margin-left: 15px;
         color: #c3783b;
         font-size: 1.2rem;
         transition: all 200ms;

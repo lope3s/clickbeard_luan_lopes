@@ -102,18 +102,6 @@ export const OptionsBody = styled.div`
     justify-content: center;
     margin-top: 5px;
     overflow: auto;
-
-    ::-webkit-scrollbar {
-        width: 5px;
-    }
-    ::-webkit-scrollbar-track {
-        background-color: #000;
-        border-radius: 5px;
-    }
-    ::-webkit-scrollbar-thumb {
-        background-color: #fff;
-        border-radius: 5px;
-    }
 `;
 
 export const Option = styled.div`
@@ -125,6 +113,7 @@ export const Option = styled.div`
     justify-content: center;
     color: #fff;
     margin: 5px 0;
+    transition: all 200ms;
 
     p {
         font-size: 22px;
@@ -133,6 +122,7 @@ export const Option = styled.div`
     @media (hover: hover) {
         :hover {
             cursor: pointer;
+            background-color: #000;
         }
     }
 `;

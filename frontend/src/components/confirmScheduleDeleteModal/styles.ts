@@ -23,9 +23,21 @@ export const Modal = styled.div`
     justify-content: center;
 `;
 
-export const SuccessMessage = styled.p`
+export const Message = styled.p`
     font-size: 20px;
     color: #c3783b;
     margin: 30px;
     text-align: center;
+`;
+
+export const ButtonBox = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+
+    div {
+        button {
+            width: 150px;
+        }
+    }
 `;

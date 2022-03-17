@@ -12,6 +12,12 @@ import Select from "./select";
 import RegisterSpecialityModal from "./registerSpecialityModal";
 import ErrorInformModal from "./errorInformModal";
 import SuccessInformModal from "./successInformModal";
+import RegisterStepsComponent from "./registerStepsComponent";
+import SelectHour from "./selectHour";
+import SelectBarber from "./selectBarber";
+import OptionButton from "./buttons/optionButton";
+import ScheduleComponent from "./scheduleComponent";
+import ConfirmScheduleDelete from "./confirmScheduleDeleteModal";
 
 export {
     Header,
@@ -27,5 +33,11 @@ export {
     Select,
     RegisterSpecialityModal,
     ErrorInformModal,
-    SuccessInformModal
+    SuccessInformModal,
+    RegisterStepsComponent,
+    SelectHour,
+    SelectBarber,
+    OptionButton,
+    ScheduleComponent,
+    ConfirmScheduleDelete
 };

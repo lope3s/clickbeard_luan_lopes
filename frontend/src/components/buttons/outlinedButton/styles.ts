@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const ButtonElement = styled.div`
     button {
-        width: 220px;
-        height: 60px;
+        width: 260px;
+        min-height: 60px;
         border: none;
         background-color: #c3783b;
         box-shadow: -3px 3px 1px 1px #bfbfbf50;

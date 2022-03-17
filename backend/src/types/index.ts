@@ -3,7 +3,9 @@ import type {
     IBarberResgistry,
     ISchedule,
     ICancelSchedule,
-    IListSchedule
+    IListSchedule,
+    IGetBarberFreeTime,
+    IMappedSchedule
 } from "./genericTypes";
 
 export {
@@ -11,5 +13,7 @@ export {
     IBarberResgistry,
     ISchedule,
     ICancelSchedule,
-    IListSchedule
+    IListSchedule,
+    IGetBarberFreeTime,
+    IMappedSchedule
 };

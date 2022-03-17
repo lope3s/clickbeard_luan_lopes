@@ -35,6 +35,7 @@ export const LIST_SCHEDULES = gql`
             barberName
             clientName
             scheduledHour
+            id
         }
     }
 `;
@@ -47,6 +48,7 @@ export const LIST_SPECIALITIES = gql`
             barbers {
                 name
                 age
+                id
             }
         }
     }
@@ -75,5 +77,28 @@ export const REGISTER_BARBER = gql`
         ) {
             name
         }
+    }
+`;
+
+export const GET_BARBER_FREE_TIME = gql`
+    query GetBarberFreeTime($barberId: String!, $date: String!) {
+        getBarberFreeTime(barberId: $barberId, date: $date) {
+            scheduledHour
+        }
+    }
+`;
+
+export const CREATE_SCHEDULE = gql`
+    mutation CreateSchedule($barberId: String!, $scheduledHour: String!) {
+        createSchedule(barberId: $barberId, scheduledHour: $scheduledHour) {
+            barberName
+            scheduledHour
+        }
+    }
+`;
+
+export const CANCEL_SCHEDULE = gql`
+    mutation Mutation($scheduleId: String!) {
+        cancelSchedule(scheduleId: $scheduleId)
     }
 `;

@@ -1,5 +1,6 @@
 const checkScheduleTime = (scheduledHour: string) => {
     const scheduleDate = new Date(scheduledHour);
+    scheduleDate.setHours(scheduleDate.getHours() - 3);
 
     const openingTime = new Date(scheduledHour);
     // Convertendo horário para UTC

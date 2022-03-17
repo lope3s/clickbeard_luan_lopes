@@ -3,7 +3,9 @@ import type {
     IUser,
     ILocalStorageData,
     ISpeciality,
-    IFormData
+    IFormData,
+    IBarber,
+    ISchedule
 } from "./genericTypes";
 import type {
     IRegisterData,
@@ -11,7 +13,11 @@ import type {
     ICheckTokenData,
     IListSpecialityData,
     ISpecialityData,
-    IRegisterBarber
+    IRegisterBarber,
+    IGetBarberFreeTime,
+    ICreateSchedule,
+    IListSchedules,
+    ICancelSchedule
 } from "./gqlTypes";
 
 export {
@@ -26,5 +32,11 @@ export {
     ISpeciality,
     ISpecialityData,
     IFormData,
-    IRegisterBarber
+    IRegisterBarber,
+    IBarber,
+    IGetBarberFreeTime,
+    ICreateSchedule,
+    IListSchedules,
+    ISchedule,
+    ICancelSchedule
 };

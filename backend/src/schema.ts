@@ -26,6 +26,7 @@ const typeDefs = gql`
         clientName: String
         barberName: String
         scheduledHour: String
+        id: String
     }
 
     type Query {
@@ -33,6 +34,7 @@ const typeDefs = gql`
         listSchedules: [Schedule]
         checkToken: RegisteredClient
         listSpecialities: [Speciality]
+        getBarberFreeTime(barberId: String!, date: String!): [Schedule]
     }
 
     type Mutation {
@@ -57,13 +59,9 @@ const typeDefs = gql`
             specialities: [String]!
         ): Barbers
 
-        createSchedule(
-            clientId: String!
-            barberId: String!
-            scheduledHour: String!
-        ): Schedule
+        createSchedule(barberId: String!, scheduledHour: String!): Schedule
 
-        cancelSchedule(clientId: String!, scheduleId: String!): String
+        cancelSchedule(scheduleId: String!): String
     }
 `;
 
