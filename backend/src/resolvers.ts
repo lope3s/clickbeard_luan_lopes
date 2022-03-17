@@ -5,7 +5,7 @@ import {
     ICancelSchedule,
     IGetBarberFreeTime
 } from "./types";
-import { checkScheduleTime } from "./helpers";
+import { checkScheduleTime, decryptData } from "./helpers";
 import { ValidationError, AuthenticationError } from "apollo-server";
 
 const resolvers = {
@@ -22,15 +22,13 @@ const resolvers = {
         },
         listSchedules: async (
             _: any,
-            __: any,
-            { dataSources, clientId }: IDataSource
+            { clientId }: { clientId: string },
+            { dataSources }: IDataSource
         ) => {
-            if (!clientId) {
-                throw new AuthenticationError("Nenhum token fornecido");
-            }
+            const parsedClientId = await decryptData(clientId);
 
             const data = await dataSources.scheduleController.listSchedules(
-                clientId
+                parsedClientId
             );
             return data;
         },

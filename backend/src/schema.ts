@@ -31,7 +31,7 @@ const typeDefs = gql`
 
     type Query {
         login(email: String!, password: String!): RegisteredClient
-        listSchedules: [Schedule]
+        listSchedules(clientId: String!): [Schedule]
         checkToken: RegisteredClient
         listSpecialities: [Speciality]
         getBarberFreeTime(barberId: String!, date: String!): [Schedule]
