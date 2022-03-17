@@ -12,11 +12,15 @@ export const ContentBox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
+
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+        align-items: center;
+    }
 `;
 
 export const DescriptiveBox = styled.div`
     width: 30rem;
-    height: 20rem;
     background-color: #232323;
     border-bottom: 15px solid #c3783b;
 
@@ -26,9 +30,21 @@ export const DescriptiveBox = styled.div`
         width: 90%;
         margin: 35px auto;
     }
+
+    @media screen and (max-width: 540px) {
+        width: 90%;
+
+        p {
+            font-size: 13px;
+        }
+    }
 `;
 
 export const ButtonBox = styled.div`
     display: flex;
     align-items: flex-end;
+
+    @media screen and (max-width: 768px) {
+        margin-top: 30px;
+    }
 `;

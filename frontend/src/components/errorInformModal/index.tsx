@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Modal, ErrorMessage } from "./styles";
+import { Container, Modal, ErrorMessage, ButtonBox } from "./styles";
 import { OutlinedButton } from "../";
 
 interface IErrorInformModal {
@@ -11,13 +11,15 @@ const ErrorInformModal: React.FC<IErrorInformModal> = ({ error }) => {
         <Container>
             <Modal>
                 <ErrorMessage>{error}</ErrorMessage>
-                <OutlinedButton
-                    onClick={() => {
-                        window.location.reload();
-                    }}
-                >
-                    Ok
-                </OutlinedButton>
+                <ButtonBox>
+                    <OutlinedButton
+                        onClick={() => {
+                            window.location.reload();
+                        }}
+                    >
+                        Ok
+                    </OutlinedButton>
+                </ButtonBox>
             </Modal>
         </Container>
     );

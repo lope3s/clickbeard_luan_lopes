@@ -1,8 +1,9 @@
 import styled from "styled-components";
 
 export const ButtonElement = styled.div`
+    width: 100%;
     button {
-        width: 260px;
+        width: 100%;
         min-height: 60px;
         border: none;
         background-color: #c3783b;
@@ -17,6 +18,14 @@ export const ButtonElement = styled.div`
                 background-color: #bfbfbf50;
                 border: 3px solid #c3783b;
             }
+        }
+
+        @media screen and (max-width: 768px) {
+            font-size: 30px;
+        }
+
+        @media screen and (max-width: 540px) {
+            font-size: 28px;
         }
     }
 `;

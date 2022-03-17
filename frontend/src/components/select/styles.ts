@@ -20,16 +20,8 @@ export const InputDataBox = styled.div`
     align-items: center;
     border: 2px solid #c3783b;
     position: relative;
-
-    > svg {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 2%;
-        z-index: 1;
-        font-size: 1.5rem;
-        color: #c3783b;
-    }
+    overflow-y: hidden;
+    overflow-x: auto;
 
     input {
         width: 100%;
@@ -42,14 +34,39 @@ export const InputDataBox = styled.div`
         }
     }
 `;
+
+export const SvgBox = styled.div`
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 44px;
+    right: 0;
+    z-index: 2;
+    background-color: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+
+    svg {
+        font-size: 1.5rem;
+        color: #c3783b;
+    }
+`;
+
 export const SelectedOptionBox = styled.div`
     height: 45px;
-    width: 90%;
+    width: calc(100% - 40px);
     position: absolute;
     z-index: 1;
     display: flex;
     align-items: center;
     padding: 0 5px;
+    overflow-x: auto;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 export const SelectedOption = styled.div`
@@ -67,6 +84,7 @@ export const SelectedOption = styled.div`
 
     svg {
         margin: 0 5px;
+        font-size: 1rem;
     }
 `;
 
@@ -125,6 +143,12 @@ export const Option = styled.div`
             background-color: #000;
         }
     }
+
+    @media screen and (max-width: 540px) {
+        p {
+            font-size: 16px;
+        }
+    }
 `;
 
 export const OptionsBoxFooter = styled.div`
@@ -156,6 +180,15 @@ export const AddNewSpeciality = styled.div`
     @media (hover: hover) {
         :hover {
             cursor: pointer;
+        }
+    }
+
+    @media screen and (max-width: 540px) {
+        p {
+            font-size: 16px;
+        }
+        svg {
+            font-size: 1rem;
         }
     }
 `;

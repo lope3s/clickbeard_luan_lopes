@@ -1,14 +1,19 @@
 import { FC, DetailedHTMLProps, ButtonHTMLAttributes } from "react";
 import { OptionButtonElement } from "./styles";
 
+interface IOptionButton {
+    selectedValue: number;
+}
+
 const OptionButton: FC<
     DetailedHTMLProps<
         ButtonHTMLAttributes<HTMLButtonElement>,
         HTMLButtonElement
-    >
-> = ({ children, ...props }) => {
+    > &
+        IOptionButton
+> = ({ children, id, selectedValue, ...props }) => {
     return (
-        <OptionButtonElement>
+        <OptionButtonElement isSelected={parseInt(id!) === selectedValue}>
             <button {...props}>{children}</button>
         </OptionButtonElement>
     );

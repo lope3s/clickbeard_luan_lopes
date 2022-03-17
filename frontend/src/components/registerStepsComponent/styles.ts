@@ -18,7 +18,19 @@ export const ProgressBar = styled.div`
     top: 52.5%;
     z-index: -1;
 
-    // responsive until 1024px;
+    @media screen and (max-width: 768px) {
+        width: 85%;
+    }
+
+    @media screen and (max-width: 540px) {
+        width: 80%;
+        left: 10%;
+        top: 52%;
+    }
+
+    @media screen and (max-width: 380px) {
+        top: 51%;
+    }
 `;
 
 export const StatusBar = styled.div`
@@ -48,6 +60,11 @@ export const Step = styled.div<IStep>`
     height: 50px;
     border-radius: 25px;
     background-color: ${(props) => (props.active ? "#fff" : "#c3783b")};
+
+    @media screen and (max-width: 540px) {
+        width: 30px;
+        height: 30px;
+    }
 `;
 
 export const StepBox = styled.div<IStep>`
@@ -60,5 +77,17 @@ export const StepBox = styled.div<IStep>`
     p {
         color: ${(props) => (props.active ? "#fff" : "#c3783b")};
         font-size: 20px;
+    }
+
+    @media screen and (max-width: 540px) {
+        p {
+            font-size: 15px;
+        }
+    }
+
+    @media screen and (max-width: 380px) {
+        p {
+            font-size: 12px;
+        }
     }
 `;

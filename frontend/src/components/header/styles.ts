@@ -5,12 +5,19 @@ export const Container = styled.div`
     height: 100vh;
 `;
 
+// próxima alteração apenas em 768px;
+
 export const HeaderBox = styled.header`
     height: 85px;
     background-color: #000000;
-    padding: 0 15%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+
+    @media screen and (min-width: 1024px) {
+        padding: 0 15%;
+    }
 `;
 
 export const LinkBox = styled.div`
@@ -23,11 +30,20 @@ export const LinkBox = styled.div`
         color: #c3783b;
         font-size: 1.2rem;
         transition: all 200ms;
+        text-align: center;
 
         @media (hover: hover) {
             :hover {
                 color: #fff;
             }
+        }
+
+        @media screen and (max-width: 540px) {
+            font-size: 15px;
+        }
+
+        @media screen and (max-width: 380px) {
+            font-size: 12px;
         }
     }
 `;
@@ -37,6 +53,10 @@ export const Image = styled.img`
         :hover {
             cursor: pointer;
         }
+    }
+
+    @media screen and (max-width: 540px) {
+        width: 80px;
     }
 `;
 
@@ -49,8 +69,13 @@ export const Body = styled.div`
 `;
 
 export const ContentContainer = styled.div`
-    width: 70%;
+    width: 90%;
     height: 100%;
-    margin: 0 auto;
     //background-color: #232323;
+    margin: 0 auto;
+    overflow: auto;
+
+    @media screen and (min-width: 1024px) {
+        width: 70%;
+    }
 `;

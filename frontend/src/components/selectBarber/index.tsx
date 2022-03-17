@@ -9,7 +9,7 @@ import {
     NoContentBox
 } from "./styles";
 import { useQuery } from "@apollo/client";
-import { LIST_SPECIALITIES } from "../../gqlQueries";
+import { LIST_SPECIALITIES, GET_BARBER_FREE_TIME } from "../../gqlQueries";
 import { IListSpecialityData, IBarber } from "../../types";
 import {
     LoadingComponent,
@@ -27,10 +27,11 @@ interface ISelectBarber {
 }
 
 const SelectBarber: React.FC<ISelectBarber> = ({ counter, setCounter }) => {
-    const { data, loading, error } =
+    const { data, loading, error, client } =
         useQuery<IListSpecialityData>(LIST_SPECIALITIES);
 
     const [barbers, setBarbers] = useState<IBarber[]>([]);
+    const [selectedOption, setSelectedOption] = useState(-1);
 
     const {
         setScheduleRegistryData,
@@ -56,14 +57,17 @@ const SelectBarber: React.FC<ISelectBarber> = ({ counter, setCounter }) => {
                     </TitleContainer>
                     <OptionButtonContainer>
                         {React.Children.toArray(
-                            data?.listSpecialities.map((value) => (
+                            data?.listSpecialities.map((value, index) => (
                                 <OptionButton
+                                    selectedValue={selectedOption}
+                                    id={index.toString()}
                                     onClick={() => {
                                         setBarbers([...value.barbers]);
                                         setExtraData({
                                             ...extraData,
                                             speciality: value.speciality
                                         });
+                                        setSelectedOption(index);
                                     }}
                                 >
                                     {value.speciality}
@@ -77,7 +81,7 @@ const SelectBarber: React.FC<ISelectBarber> = ({ counter, setCounter }) => {
                         React.Children.toArray(
                             barbers.map((barber) => (
                                 <BarberCard
-                                    onClick={() => {
+                                    onClick={async () => {
                                         setScheduleRegistryData({
                                             ...scheduleRegistryData,
                                             barberId: barber.id
@@ -86,6 +90,16 @@ const SelectBarber: React.FC<ISelectBarber> = ({ counter, setCounter }) => {
                                         setExtraData({
                                             ...extraData,
                                             barberName: barber.name
+                                        });
+
+                                        await client.refetchQueries({
+                                            include: [GET_BARBER_FREE_TIME],
+                                            updateCache(cache) {
+                                                cache.evict({
+                                                    fieldName:
+                                                        "getBarberFreeTime"
+                                                });
+                                            }
                                         });
                                     }}
                                 >

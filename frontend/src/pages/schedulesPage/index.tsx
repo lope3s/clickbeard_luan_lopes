@@ -9,11 +9,16 @@ import {
 } from "../../components";
 import { useQuery } from "@apollo/client";
 import { LIST_SCHEDULES } from "../../gqlQueries";
-import { IListSchedules } from "../../types";
+import { IListSchedules, IModel, IUser } from "../../types";
+import { useStoreState } from "easy-peasy";
 
 const SchedulesPage: React.FC = () => {
-    const { loading, data, error, refetch } =
-        useQuery<IListSchedules>(LIST_SCHEDULES);
+    const { token } = useStoreState<IModel, IUser>((state) => state.userModel);
+
+    const { loading, data, error, refetch } = useQuery<IListSchedules>(
+        LIST_SCHEDULES,
+        { variables: { clientId: token } }
+    );
 
     if (data) {
         console.log(data);

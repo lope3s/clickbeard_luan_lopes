@@ -14,8 +14,8 @@ export const Container = styled.div`
 `;
 
 export const Modal = styled.div`
-    width: 30%;
-    height: 20%;
+    width: 15rem;
+    min-height: 12rem;
     background-color: #232323;
     display: flex;
     flex-direction: column;
@@ -27,4 +27,9 @@ export const ErrorMessage = styled.p`
     font-size: 20px;
     color: #f5152c;
     margin: 30px 0;
+    text-align: center;
+`;
+
+export const ButtonBox = styled.div`
+    width: 60%;
 `;

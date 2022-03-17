@@ -1,6 +1,19 @@
 import { SetStateAction, Dispatch, useState } from "react";
-import { Container, Modal, InputBox } from "./styles";
-import { TitleBox, H1, Input, OutlinedButton, LoadingComponent } from "../";
+import {
+    Container,
+    Modal,
+    InputBox,
+    ButtonBox,
+    TitleContainer
+} from "./styles";
+import {
+    TitleBox,
+    H1,
+    Input,
+    OutlinedButton,
+    LoadingComponent,
+    SuccessInformModal
+} from "../";
 import { useMutation } from "@apollo/client";
 import { REGISTER_SPECIALITY } from "../../gqlQueries";
 import { ISpecialityData } from "../../types";
@@ -21,6 +34,7 @@ const RegisterSpecialityModal: React.FC<ISpecialityModal> = ({
 
     const [speciality, setSpeciality] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [modalWindow, setWindow] = useState(false);
 
     const registerData = () => {
         if (!speciality) {
@@ -33,9 +47,9 @@ const RegisterSpecialityModal: React.FC<ISpecialityModal> = ({
         }
     };
 
-    if (data?.registerSpeciality) {
+    if (data?.registerSpeciality && !modalWindow) {
+        setWindow(true);
         refetch();
-        reset();
         setSpeciality("");
     }
 
@@ -47,11 +61,20 @@ const RegisterSpecialityModal: React.FC<ISpecialityModal> = ({
     return (
         <Container onClick={() => setModalControll(false)}>
             {loading ? <LoadingComponent /> : null}
+            {modalWindow ? (
+                <SuccessInformModal
+                    setWindow={setWindow}
+                    reset={reset}
+                    successMessage={`Especialidade ${data?.registerSpeciality.speciality} registrada com sucesso!`}
+                />
+            ) : null}
             <Modal onClick={(e) => e.stopPropagation()}>
                 <AiOutlineCloseCircle onClick={() => setModalControll(false)} />
-                <TitleBox>
-                    <H1>Cadastrar Especialidade</H1>
-                </TitleBox>
+                <TitleContainer>
+                    <TitleBox>
+                        <H1>Cadastrar Especialidade</H1>
+                    </TitleBox>
+                </TitleContainer>
                 <InputBox>
                     <Input
                         labelText="Epecialidade"
@@ -65,14 +88,16 @@ const RegisterSpecialityModal: React.FC<ISpecialityModal> = ({
                         {errorMessage ? <p>{errorMessage}</p> : null}
                     </Input>
                 </InputBox>
-                <OutlinedButton
-                    onClick={(e) => {
-                        e.preventDefault();
-                        registerData();
-                    }}
-                >
-                    Cadastrar
-                </OutlinedButton>
+                <ButtonBox>
+                    <OutlinedButton
+                        onClick={(e) => {
+                            e.preventDefault();
+                            registerData();
+                        }}
+                    >
+                        Cadastrar
+                    </OutlinedButton>
+                </ButtonBox>
             </Modal>
         </Container>
     );

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Modal, SuccessMessage } from "./styles";
+import { Container, Modal, SuccessMessage, ButtonBox } from "./styles";
 import { OutlinedButton } from "../";
 
 interface ISuccessInformModal {
@@ -14,19 +14,21 @@ const SuccessInformModal: React.FC<ISuccessInformModal> = ({
     reset
 }) => {
     return (
-        <Container>
+        <Container onClick={(e) => e.stopPropagation()}>
             <Modal>
                 <SuccessMessage>{successMessage}</SuccessMessage>
-                <OutlinedButton
-                    onClick={() => {
-                        setWindow(false);
-                        if (reset) {
-                            reset();
-                        }
-                    }}
-                >
-                    Ok
-                </OutlinedButton>
+                <ButtonBox>
+                    <OutlinedButton
+                        onClick={() => {
+                            setWindow(false);
+                            if (reset) {
+                                reset();
+                            }
+                        }}
+                    >
+                        Ok
+                    </OutlinedButton>
+                </ButtonBox>
             </Modal>
         </Container>
     );

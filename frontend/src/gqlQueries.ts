@@ -30,8 +30,8 @@ export const CHECK_TOKEN = gql`
 `;
 
 export const LIST_SCHEDULES = gql`
-    query ListSchedules {
-        listSchedules {
+    query ListSchedules($clientId: String!) {
+        listSchedules(clientId: $clientId) {
             barberName
             clientName
             scheduledHour

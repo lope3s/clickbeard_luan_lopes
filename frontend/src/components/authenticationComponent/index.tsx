@@ -16,7 +16,7 @@ const AuthenticationComponent: React.FC = ({ children }) => {
         pathname !== "/cadastro" &&
         pathname !== "/login"
     ) {
-        return <Navigate to="/login" replace={true} />;
+        return <Navigate to="/" replace={true} />;
     }
     if (
         token &&

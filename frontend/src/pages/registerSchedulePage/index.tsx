@@ -21,7 +21,7 @@ import {
     SuccessInformModal
 } from "../../components";
 import { useScheduleRegister } from "../../hooks/useScheduleRegister";
-import { CREATE_SCHEDULE } from "../../gqlQueries";
+import { CREATE_SCHEDULE, LIST_SCHEDULES } from "../../gqlQueries";
 import { useMutation } from "@apollo/client";
 import { parseDateString } from "../../helpers";
 import { ICreateSchedule } from "../../types";
@@ -32,7 +32,7 @@ const RegisterSchedulePage: React.FC = () => {
 
     const { scheduleRegistryData, extraData } = useScheduleRegister();
 
-    const [createSchedule, { data, loading, error, reset }] =
+    const [createSchedule, { data, loading, error, reset, client }] =
         useMutation<ICreateSchedule>(CREATE_SCHEDULE);
 
     if (data?.createSchedule && !modalWindow) {
@@ -99,17 +99,22 @@ const RegisterSchedulePage: React.FC = () => {
                         </InformationResume>
                         <ButtonContainer>
                             <OutlinedButton
-                                onClick={() => {
-                                    console.log(
-                                        "sche: ",
-                                        scheduleRegistryData.scheduledHour
-                                    );
-                                    createSchedule({
+                                onClick={async () => {
+                                    await createSchedule({
                                         variables: {
                                             barberId:
                                                 scheduleRegistryData.barberId,
                                             scheduledHour:
                                                 scheduleRegistryData.scheduledHour
+                                        }
+                                    });
+
+                                    await client.refetchQueries({
+                                        include: [LIST_SCHEDULES],
+                                        updateCache(cache) {
+                                            cache.evict({
+                                                fieldName: "listSchedules"
+                                            });
                                         }
                                     });
                                 }}

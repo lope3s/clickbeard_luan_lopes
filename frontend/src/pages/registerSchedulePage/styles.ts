@@ -7,15 +7,17 @@ export const Container = styled.div`
     background-color: #232323;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     position: relative;
 `;
 
 export const StepsContainer = styled.div`
     width: 80%;
     height: 200px;
-    position: absolute;
-    top: 0px;
+    margin-bottom: 50px;
+
+    @media screen and (max-width: 768px) {
+        margin-bottom: 0px;
+    }
 `;
 
 export const InformationBox = styled.div`
@@ -23,11 +25,20 @@ export const InformationBox = styled.div`
 `;
 
 export const ConfirmationBox = styled.div`
-    width: 50%;
+    width: 25rem;
     height: 500px;
     border: 3px solid #c2783b;
-    margin: 0 auto;
+    margin: -50px auto 0 auto;
     background-color: #000;
+
+    @media screen and (min-width: 1024px) {
+        width: 30rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+        margin-top: 0px;
+    }
 `;
 
 export const TitleContainer = styled.div`
@@ -42,10 +53,11 @@ export const TitleContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    width: 100%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0 auto;
 `;
 
 export const InformationResume = styled.div`
@@ -62,6 +74,14 @@ export const InformationResume = styled.div`
         font-size: 20px;
         b {
             color: #c3783b;
+        }
+    }
+
+    @media screen and (max-width: 380px) {
+        div {
+            p {
+                font-size: 15px;
+            }
         }
     }
 `;
@@ -87,5 +107,9 @@ export const Footer = styled.div`
                 cursor: pointer;
             }
         }
+    }
+
+    @media screen and (max-width: 768px) {
+        bottom: 80px;
     }
 `;

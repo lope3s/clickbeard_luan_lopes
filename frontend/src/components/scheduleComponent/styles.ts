@@ -13,6 +13,22 @@ export const Container = styled.div`
         height: 100%;
         background-color: #000;
     }
+
+    @media screen and (max-width: 768px) {
+        width: 175px;
+        height: 245px;
+    }
+
+    @media screen and (max-width: 540px) {
+        width: 130px;
+        height: 170px;
+        margin: 20px 15px;
+    }
+
+    @media screen and (max-width: 380px) {
+        width: 180px;
+        height: 250px;
+    }
 `;
 
 export const ContentContainer = styled.div`
@@ -54,6 +70,24 @@ export const Header = styled.div`
     p {
         font-size: 26px;
     }
+
+    @media screen and (max-width: 768px) {
+        h3 {
+            font-size: 22px;
+        }
+        p {
+            font-size: 18px;
+        }
+    }
+
+    @media screen and (max-width: 540px) {
+        h3 {
+            font-size: 15px;
+        }
+        p {
+            font-size: 15px;
+        }
+    }
 `;
 
 export const Information = styled.div`
@@ -69,6 +103,18 @@ export const Information = styled.div`
         font-size: 20px;
         b {
             color: #c3783b;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        p {
+            font-size: 18px;
+        }
+    }
+
+    @media screen and (min-width: 380px) and (max-width: 540px) {
+        p {
+            font-size: 13px;
         }
     }
 `;

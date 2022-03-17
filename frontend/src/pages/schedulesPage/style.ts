@@ -17,9 +17,10 @@ export const TitleContainer = styled.div`
 `;
 
 export const SchedulesContainer = styled.div`
-    width: 80%;
-    height: calc(100% - 70px);
+    width: 100%;
+    height: calc(100% - 110px);
     display: flex;
     flex-wrap: wrap;
     overflow: auto;
+    justify-content: center;
 `;

@@ -14,7 +14,7 @@ export const Container = styled.div`
 `;
 
 export const Modal = styled.div`
-    width: 30%;
+    width: 15rem;
     height: 20%;
     background-color: #232323;
     display: flex;
@@ -31,13 +31,16 @@ export const Message = styled.p`
 `;
 
 export const ButtonBox = styled.div`
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 
     div {
+        width: 40%;
+
         button {
-            width: 150px;
+            width: 100%;
         }
     }
 `;

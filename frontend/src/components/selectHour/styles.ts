@@ -16,12 +16,20 @@ export const DateContainer = styled.div`
     color: #fff;
     font-size: 26px;
     margin: 10px;
+
+    @media screen and (max-width: 380px) {
+        font-size: 20px;
+    }
 `;
 
 export const BarberFreeTimeText = styled.p`
     margin: 22px 0;
     color: #fff;
     font-size: 18px;
+
+    @media screen and (max-width: 380px) {
+        font-size: 15px;
+    }
 `;
 
 export const InputContainer = styled.div`
@@ -30,11 +38,20 @@ export const InputContainer = styled.div`
 `;
 
 export const ButtonContainer = styled.div`
-    width: 100%;
+    width: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
+    margin: 0 auto 10px auto;
+
+    @media screen and (max-width: 380px) {
+        width: 70%;
+        div {
+            button {
+                font-size: 22px;
+            }
+        }
+    }
 `;
 
 export const ArrowContainer = styled.div`

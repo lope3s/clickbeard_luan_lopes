@@ -15,7 +15,8 @@ import {
     Option,
     InputDataBox,
     SelectedOptionBox,
-    SelectedOption
+    SelectedOption,
+    SvgBox
 } from "./styles";
 import {
     UseFormRegisterReturn,
@@ -117,7 +118,9 @@ const Select: FC<
             >
                 <Label htmlFor={id}>{labelText}</Label>
                 <InputDataBox>
-                    <BiDownArrow />
+                    <SvgBox>
+                        <BiDownArrow />
+                    </SvgBox>
                     <input
                         placeholder={
                             inputData.length
