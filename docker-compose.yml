@@ -5,10 +5,11 @@ services:
         ports:
             - "3306:3306"
         volumes:
-            - mysql:/var/lib/mysql
+            - mysql5:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: pass
             MYSQL_DATABASE: clients
+        restart: always
 
     front:
         build:
@@ -23,6 +24,7 @@ services:
             context: ./backend
         ports:
             - "4000:4000"
+        restart: always
 
 volumes:
-    mysql:
+    mysql5:
