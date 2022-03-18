@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+    db:
+        image: mysql:latest
+        ports:
+            - "3306:3306"
+        volumes:
+            - mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_DATABASE: clients
+
+    front:
+        build:
+            context: ./frontend
+        ports:
+            - "3000:3000"
+
+    back:
+        depends_on:
+            - db
+        build:
+            context: ./backend
+        ports:
+            - "4000:4000"
+
+volumes:
+    mysql:

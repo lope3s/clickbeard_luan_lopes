@@ -1,9 +1,9 @@
 {
     "type": "mysql",
-    "host": "127.0.0.1",
+    "host": "db",
     "port": 3306,
     "username": "root",
-    "password": "1234",
+    "password": "pass",
     "database": "clients",
     "synchronize": true,
     "logging": false,

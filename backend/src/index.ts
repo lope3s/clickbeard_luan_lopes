@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, getConnectionOptions } from "typeorm";
 import { ApolloServer } from "apollo-server";
 import typeDefs from "./schema";
 import resolvers from "./resolvers";
@@ -12,8 +12,10 @@ import {
     ScheduleDataSource
 } from "./data_source";
 import startKeyStore from "./services/startKeyStore";
-config({ path: join(__dirname, "../env") });
 import { decryptData } from "./helpers";
+import { createDatabase } from "typeorm-extension";
+
+config({ path: join(__dirname, "../env") });
 
 startKeyStore();
 
@@ -47,6 +49,9 @@ const server = new ApolloServer({
 
 server.listen().then(async ({ url }) => {
     try {
+        const connecitonOptions = await getConnectionOptions();
+        await createDatabase({ ifNotExist: true }, connecitonOptions);
+
         await createConnection();
         console.log("db connected!");
         console.log(`Server started ad ${url}`);
