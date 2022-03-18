@@ -123,6 +123,7 @@ const LrForm: React.FC<ILrForm> = ({ postForm, page, error }) => {
                             setValue={setValue}
                             getValues={getValues}
                             clearErrors={clearErrors}
+                            id="select"
                         >
                             <ErrorMessage
                                 errors={errors}

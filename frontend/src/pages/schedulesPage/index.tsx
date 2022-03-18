@@ -20,10 +20,6 @@ const SchedulesPage: React.FC = () => {
         { variables: { clientId: token } }
     );
 
-    if (data) {
-        console.log(data);
-    }
-
     return (
         <Container>
             {loading ? <LoadingComponent /> : null}

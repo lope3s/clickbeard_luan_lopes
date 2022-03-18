@@ -118,7 +118,7 @@ const Select: FC<
             >
                 <Label htmlFor={id}>{labelText}</Label>
                 <InputDataBox>
-                    <SvgBox>
+                    <SvgBox data-testid="select-button">
                         <BiDownArrow />
                     </SvgBox>
                     <input
@@ -129,6 +129,10 @@ const Select: FC<
                         }
                         value={typeof inputValue === "object" ? "" : ""}
                         readOnly
+                        onFocus={() => {
+                            setShowOptionsBox(!showOptionsBox);
+                        }}
+                        id={id}
                         {...register}
                     />
                     <SelectedOptionBox>

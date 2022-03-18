@@ -40,10 +40,6 @@ const SelectBarber: React.FC<ISelectBarber> = ({ counter, setCounter }) => {
         setExtraData
     } = useScheduleRegister();
 
-    if (data) {
-        console.log(data);
-    }
-
     return (
         <>
             {loading ? <LoadingComponent /> : null}
